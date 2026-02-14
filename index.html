@@ -5,92 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>머니 타이coon - Money Tycoon</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-2805703348506657/f08c47fec0942fa" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body { height: 100%; overflow: hidden; }
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         .container {
-            max-width: 480px;
+            max-width: 420px;
             margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-            height: calc(100vh - 60px);
+            padding: 15px;
+            height: calc(100vh - 70px);
             display: flex;
             flex-direction: column;
         }
-        h1 { color: #ffd700; margin: 10px 0; font-size: 28px; }
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+        }
+        .money-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
         .money {
             font-size: 42px;
-            color: #00ff88;
-            font-weight: bold;
-            margin: 10px 0;
+            font-weight: 700;
+            color: #00FF88;
+            text-shadow: 0 0 20px rgba(0,255,136,0.5);
         }
-        .mps { color: #aaa; margin-bottom: 15px; font-size: 14px; }
+        .mps {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .click-area {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
         .click-btn {
-            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            background: linear-gradient(145deg, #FFD700, #FF8C00);
             border: none;
             border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            font-size: 24px;
-            font-weight: bold;
+            width: 160px;
+            height: 160px;
+            font-size: 26px;
+            font-weight: 700;
             color: #1a1a2e;
             cursor: pointer;
-            box-shadow: 0 10px 40px rgba(255,215,0,0.4);
-            animation: pulse 2s infinite;
-            margin: 0 auto 15px;
+            box-shadow: 
+                0 10px 30px rgba(255,215,0,0.4),
+                inset 0 -5px 20px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
+            transition: transform 0.1s;
         }
-        .click-btn:active { transform: scale(0.95); }
+        .click-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 10px 40px rgba(255,215,0,0.4); }
-            50% { box-shadow: 0 10px 60px rgba(255,215,0,0.6); }
+            0%, 100% { box-shadow: 0 10px 30px rgba(255,215,0,0.4), inset 0 -5px 20px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 10px 50px rgba(255,215,0,0.6), inset 0 -5px 20px rgba(0,0,0,0.2); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
         .upgrades {
             flex: 1;
             overflow-y: auto;
-            text-align: left;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 5px;
         }
+        .upgrades::-webkit-scrollbar { width: 4px; }
+        .upgrades::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .upgrades::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.3); border-radius: 10px; }
         .upgrade {
-            background: rgba(255,255,255,0.1);
-            padding: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            padding: 14px;
             margin: 8px 0;
-            border-radius: 10px;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
         }
-        .upgrade:hover { background: rgba(255,255,255,0.2); }
-        .upgrade.locked { opacity: 0.5; }
-        .upgrade div:first-child { font-size: 14px; }
-        .upgrade div:last-child { text-align: right; font-size: 12px; }
+        .upgrade:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1));
+            transform: translateX(5px);
+        }
+        .upgrade.locked {
+            opacity: 0.4;
+            transform: none;
+        }
+        .upgrade-left { display: flex; align-items: center; gap: 12px; }
+        .upgrade-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .upgrade-info b { display: block; font-size: 15px; }
+        .upgrade-info small { color: rgba(255,255,255,0.6); font-size: 11px; }
+        .upgrade-right { text-align: right; }
+        .upgrade-cost { color: #FFD700; font-size: 13px; font-weight: 600; }
+        .upgrade-count {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #1a1a2e;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 4px;
+            display: inline-block;
+        }
         .float {
             position: fixed;
-            font-size: 24px;
-            color: #00ff88;
+            font-size: 28px;
+            font-weight: 700;
+            color: #00FF88;
             pointer-events: none;
             animation: floatUp 1s forwards;
             z-index: 1000;
+            text-shadow: 0 0 10px rgba(0,255,136,0.8);
         }
         @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-100px); }
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
         }
         .ad-banner {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 60px;
-            background: #222;
+            height: 70px;
+            background: linear-gradient(to top, #000, rgba(0,0,0,0.8));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -99,14 +167,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>💰 Money Tycoon</h1>
-        <div class="money" id="money">$0</div>
-        <div class="mps">초당 수입: <span id="mps">$0</span></div>
-        <button class="click-btn" onclick="clickMoney(event)">TAP!<br><span style="font-size:12px">+$1</span></button>
+        <div class="header">
+            <h1>💎 Money Tycoon</h1>
+        </div>
+        <div class="money-box">
+            <div class="money" id="money">$0</div>
+            <div class="mps">📈 초당 수입: <span id="mps">$0</span></div>
+        </div>
+        <div class="click-area">
+            <button class="click-btn" onclick="clickMoney(event)">TAP!</button>
+        </div>
         <div class="upgrades" id="upgrades"></div>
     </div>
     
-    <!-- AdMob Banner -->
     <div class="ad-banner">
         <ins class="adsbygoogle"
              style="display:inline-block;width:320px;height:50px"
@@ -118,6 +191,7 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
         
         let money = 0, mps = 0, clickValue = 1;
+        const icons = ['👤','🎰','☕','🏪','🍽️','🏨','🏢','📈','🏦','🌐'];
         const upgrades = [
             {name:"알바생",cost:15,income:0.5,count:0},
             {name:"판매기",cost:100,income:3,count:0},
@@ -126,19 +200,21 @@
             {name:"식당",cost:8000,income:150,count:0},
             {name:"호텔",cost:30000,income:500,count:0},
             {name:"부동산",cost:100000,income:1500,count:0},
-            {name:"주식",cost:500000,income:5000,count:0}
+            {name:"주식",cost:500000,income:5000,count:0},
+            {name:"은행",cost:2000000,income:20000,count:0},
+            {name:"대기업",cost:10000000,income:100000,count:0}
         ];
         
         function load() {
-            const s = localStorage.getItem('moneyTycoon');
+            const s = localStorage.getItem('moneyTycoon2');
             if (s) { let d = JSON.parse(s); money = d.m; mps = d.p; clickValue = d.c; upgrades.forEach((u,i)=>u.count=d.u[i]||0); }
         }
-        function save() { localStorage.setItem('moneyTycoon',JSON.stringify({m:money,p:mps,c:clickValue,u:upgrades.map(u=>u.count)})); }
+        function save() { localStorage.setItem('moneyTycoon2',JSON.stringify({m:money,p:mps,c:clickValue,u:upgrades.map(u=>u.count)})); }
         function fmt(n) { if(n>=1e12)return(n/1e12).toFixed(2)+'T'; if(n>=1e9)return(n/1e9).toFixed(2)+'B'; if(n>=1e6)return(n/1e6).toFixed(2)+'M'; if(n>=1e3)return(n/1e3).toFixed(1)+'K'; return Math.floor(n).toString(); }
         
         function clickMoney(e) {
             money += clickValue;
-            let f = document.createElement('div'); f.className='float'; f.textContent='+$'+fmt(clickValue); f.style.left=e.clientX+'px'; f.style.top=e.clientY+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
+            let f = document.createElement('div'); f.className='float'; f.textContent='+$'+fmt(clickValue); f.style.left=(e.clientX-30)+'px'; f.style.top=(e.clientY-20)+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
             update();
         }
         function buy(i) {
@@ -156,9 +232,16 @@
             document.getElementById('mps').textContent = '$' + fmt(mps) + '/초';
             let h = '';
             upgrades.forEach((u,i) => {
+                let iconColor = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9'][i];
                 h += `<div class="upgrade ${money>=u.cost?'':'locked'}" onclick="buy(${i})">
-                    <div><b>${u.name}</b><br><small>+$${u.income}/초</small></div>
-                    <div>$${fmt(u.cost)} <span style="background:#ffd700;color:#000;padding:2px 6px;border-radius:8px;font-size:10px">${u.count}</span></div>
+                    <div class="upgrade-left">
+                        <div class="upgrade-icon" style="background:${iconColor}20;border:2px solid ${iconColor}">${icons[i]}</div>
+                        <div class="upgrade-info"><b>${u.name}</b><small>+$${u.income}/초</small></div>
+                    </div>
+                    <div class="upgrade-right">
+                        <div class="upgrade-cost">$${fmt(u.cost)}</div>
+                        <div class="upgrade-count">${u.count}</div>
+                    </div>
                 </div>`;
             });
             document.getElementById('upgrades').innerHTML = h;
