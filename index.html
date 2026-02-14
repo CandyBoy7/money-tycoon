@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>머니 타이coon - Money Tycoon</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-2805703348506657/f08c47fec0942fa" crossorigin="anonymous"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -48,6 +49,7 @@
         .upgrades {
             margin-top: 30px;
             text-align: left;
+            padding-bottom: 60px;
         }
         .upgrade {
             background: rgba(255,255,255,0.1);
@@ -71,6 +73,17 @@
             0% { opacity: 1; transform: translateY(0); }
             100% { opacity: 0; transform: translateY(-100px); }
         }
+        .ad-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -83,11 +96,18 @@
     </div>
     
     <!-- AdMob Banner -->
-    <div style="position:fixed;bottom:0;left:0;right:0;height:50px;background:#333;text-align:center;line-height:50px;">
-        📺 광고 영역 (AdMob)
+    <div class="ad-banner">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-2805703348506657"
+             data-ad-slot="f08c47fec0942fa"
+             data-ad-format="horizontal"
+             data-full-width-responsive="true"></ins>
     </div>
 
     <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
         let money = 0, mps = 0, clickValue = 1;
         const upgrades = [
             {name:"알바생",cost:15,income:0.5,count:0},
