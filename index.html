@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>머니 타이coon - Money Tycoon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { color: #ffd700; margin: 20px 0; }
+        .money {
+            font-size: 48px;
+            color: #00ff88;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .mps { color: #aaa; margin-bottom: 30px; }
+        .click-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a1a2e;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255,215,0,0.4);
+            animation: pulse 2s infinite;
+        }
+        .click-btn:active { transform: scale(0.95); }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(255,215,0,0.4); }
+            50% { box-shadow: 0 10px 60px rgba(255,215,0,0.6); }
+        }
+        .upgrades {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .upgrade {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .upgrade:hover { background: rgba(255,255,255,0.2); }
+        .upgrade.locked { opacity: 0.5; }
+        .float {
+            position: fixed;
+            font-size: 24px;
+            color: #00ff88;
+            pointer-events: none;
+            animation: floatUp 1s forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-100px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Money Tycoon</h1>
+        <div class="money" id="money">$0</div>
+        <div class="mps">초당 수입: <span id="mps">$0</span></div>
+        <button class="click-btn" onclick="clickMoney(event)">TAP!<br><span style="font-size:14px">+$1</span></button>
+        <div class="upgrades" id="upgrades"></div>
+    </div>
+    
+    <!-- AdMob Banner -->
+    <div style="position:fixed;bottom:0;left:0;right:0;height:50px;background:#333;text-align:center;line-height:50px;">
+        📺 광고 영역 (AdMob)
+    </div>
+
+    <script>
+        let money = 0, mps = 0, clickValue = 1;
+        const upgrades = [
+            {name:"알바생",cost:15,income:0.5,count:0},
+            {name:"판매기",cost:100,income:3,count:0},
+            {name:"카페",cost:500,income:10,count:0},
+            {name:"편의점",cost:2000,income:40,count:0},
+            {name:"식당",cost:8000,income:150,count:0},
+            {name:"호텔",cost:30000,income:500,count:0},
+            {name:"부동산",cost:100000,income:1500,count:0},
+            {name:"주식",cost:500000,income:5000,count:0}
+        ];
+        
+        function load() {
+            const s = localStorage.getItem('moneyTycoon');
+            if (s) { let d = JSON.parse(s); money = d.m; mps = d.p; clickValue = d.c; upgrades.forEach((u,i)=>u.count=d.u[i]||0); }
+        }
+        function save() { localStorage.setItem('moneyTycoon',JSON.stringify({m:money,p:mps,c:clickValue,u:upgrades.map(u=>u.count)})); }
+        function fmt(n) { if(n>=1e12)return(n/1e12).toFixed(2)+'T'; if(n>=1e9)return(n/1e9).toFixed(2)+'B'; if(n>=1e6)return(n/1e6).toFixed(2)+'M'; if(n>=1e3)return(n/1e3).toFixed(1)+'K'; return Math.floor(n).toString(); }
+        
+        function clickMoney(e) {
+            money += clickValue;
+            let f = document.createElement('div'); f.className='float'; f.textContent='+$'+fmt(clickValue); f.style.left=e.clientX+'px'; f.style.top=e.clientY+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
+            update();
+        }
+        function buy(i) {
+            if (money >= upgrades[i].cost) {
+                money -= upgrades[i].cost;
+                upgrades[i].count++;
+                upgrades[i].cost = Math.floor(upgrades[i].cost * 1.15);
+                mps += upgrades[i].income;
+                clickValue = 1 + mps * 0.1;
+                update();
+            }
+        }
+        function update() {
+            document.getElementById('money').textContent = '$' + fmt(money);
+            document.getElementById('mps').textContent = '$' + fmt(mps) + '/초';
+            let h = '';
+            upgrades.forEach((u,i) => {
+                h += `<div class="upgrade ${money>=u.cost?'':'locked'}" onclick="buy(${i})">
+                    <div><b>${u.name}</b><br><small>+$${u.income}/초</small></div>
+                    <div>$${fmt(u.cost)} <span style="background:#ffd700;color:#000;padding:2px8px;border-radius:10px">${u.count}</span></div>
+                </div>`;
+            });
+            document.getElementById('upgrades').innerHTML = h;
+            save();
+        }
+        setInterval(() => { if(mps>0){money+=mps; update();} }, 1000);
+        load(); update();
+    </script>
+</body>
+</html>
