@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유튜브 썸네일 메이커</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        #canvas { width: 100%; max-width: 640px; aspect-ratio: 16/9; border: 2px solid #000; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white p-4">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-6">🎬 유튜브 썸네일 메이커</h1>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- 컨트롤 패널 -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block mb-2">제목 (첫 번째 줄)</label>
+                    <input type="text" id="title1" value="월 100만원 부업" 
+                        class="w-full p-3 bg-gray-800 rounded text-lg" oninput="draw()">
+                </div>
+                <div>
+                    <label class="block mb-2">제목 (두 번째 줄)</label>
+                    <input type="text" id="title2" value="TOP 5" 
+                        class="w-full p-3 bg-gray-800 rounded text-lg" oninput="draw()">
+                </div>
+                <div>
+                    <label class="block mb-2">배경 색상</label>
+                    <select id="bgColor" class="w-full p-3 bg-gray-800 rounded" onchange="draw()">
+                        <option value="dark">다크 블루 (#1a1a2e)</option>
+                        <option value="purple">퍼플 그라데이션</option>
+                        <option value="red">레드 (-hot)</option>
+                        <option value="gold">골드 (+-luxury)</option>
+                        <option value="green">그린 (+-money)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2"> accent 색상</label>
+                    <input type="color" id="accentColor" value="#e94560" 
+                        class="w-full h-12 rounded" onchange="draw()">
+                </div>
+                <button onclick="download()" 
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded text-xl">
+                    ⬇️ PNG 다운로드
+                </button>
+            </div>
+            
+            <!-- 미리보기 -->
+            <div>
+                <canvas id="canvas" width="1280" height="720"></canvas>
+            </div>
+        </div>
+        
+        <!-- 미리보기 텍스트 -->
+        <div class="mt-6 p-4 bg-gray-800 rounded">
+            <h3 class="font-bold mb-2">💡 팁</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-300">
+                <li>제목은 짧고 강렬하게!</li>
+                <li>빨간색 포인트는 시선을 끕니다</li>
+                <li>핵심 단어는 크게!</li>
+                <li>PNG 다운로드 후 Canva에서 편집 가능</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function draw() {
+            const title1 = document.getElementById('title1').value;
+            const title2 = document.getElementById('title2').value;
+            const bgType = document.getElementById('bgColor').value;
+            const accent = document.getElementById('accentColor').value;
+            
+            // 배경
+            let gradient;
+            switch(bgType) {
+                case 'dark':
+                    gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+                    gradient.addColorStop(0, '#1a1a2e');
+                    gradient.addColorStop(1, '#16213e');
+                    break;
+                case 'purple':
+                    gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+                    gradient.addColorStop(0, '#667eea');
+                    gradient.addColorStop(1, '#764ba2');
+                    break;
+                case 'red':
+                    gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+                    gradient.addColorStop(0, '#f093fb');
+                    gradient.addColorStop(1, '#f5576c');
+                    break;
+                case 'gold':
+                    gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+                    gradient.addColorStop(0, '#f7971e');
+                    gradient.addColorStop(1, '#ffd200');
+                    break;
+                case 'green':
+                    gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+                    gradient.addColorStop(0, '#11998e');
+                    gradient.addColorStop(1, '#38ef7d');
+                    break;
+            }
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1280, 720);
+            
+            // 장식 원
+            ctx.fillStyle = accent + '40';
+            ctx.beginPath();
+            ctx.arc(1100, 100, 200, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = accent + '30';
+            ctx.beginPath();
+            ctx.arc(100, 600, 150, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 제목
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = '#000000';
+            ctx.shadowBlur = 10;
+            ctx.font = 'bold 100px Noto Sans KR';
+            ctx.fillText(title1, 640, 320);
+            
+            ctx.font = 'bold 120px Noto Sans KR';
+            ctx.fillText(title2, 640, 450);
+            
+            // 액센트 바
+            ctx.fillStyle = accent;
+            ctx.fillRect(340, 480, 600, 10);
+            
+            // CTA 버튼
+            ctx.fillStyle = accent;
+            ctx.fillRect(440, 540, 400, 100);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 40px Noto Sans KR';
+            ctx.fillText('지금 시작하기', 640, 605);
+        }
+        
+        function download() {
+            const link = document.createElement('a');
+            link.download = 'thumbnail.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        draw();
+    </script>
+</body>
+</html>
