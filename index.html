@@ -2,194 +2,100 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>머니 타이coon - Money Tycoon</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-2805703348506657/f08c47fec0942fa" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
         body {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: white;
             font-family: 'Poppins', sans-serif;
         }
         .container {
-            max-width: 420px;
-            margin: 0 auto;
-            padding: 10px;
-            height: calc(100vh - 70px);
+            max-width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            padding: 10px;
+            padding-bottom: 75px;
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 5px;
+            flex-shrink: 0;
         }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stats-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-        .stat-box {
-            flex: 1;
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 8px;
-            text-align: center;
-        }
-        .stat-label { font-size: 10px; color: rgba(255,255,255,0.6); }
-        .stat-value { font-size: 14px; font-weight: 700; color: #FFD700; }
-        .money-box {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-        }
-        .money { font-size: 36px; font-weight: 700; color: #00FF88; text-shadow: 0 0 20px rgba(0,255,136,0.5); }
-        .mps { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 3px; }
-        .quest-box {
-            background: linear-gradient(135deg, #6B5B95, #88B04B);
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .quest-info b { font-size: 13px; }
-        .quest-progress { font-size: 11px; color: rgba(255,255,255,0.8); }
-        .quest-reward { color: #FFD700; font-size: 12px; }
-        .click-area { display: flex; justify-content: center; margin: 10px 0; }
-        .click-btn {
-            background: linear-gradient(145deg, #FFD700, #FF8C00);
-            border: none;
-            border-radius: 50%;
-            width: 140px;
-            height: 140px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a2e;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.4), inset 0 -5px 20px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite, float 3s ease-in-out infinite;
-            transition: transform 0.1s;
-        }
-        .click-btn:active { transform: scale(0.95); }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 10px 30px rgba(255,215,0,0.4); } 50% { box-shadow: 0 10px 50px rgba(255,215,0,0.6); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        .upgrades { flex: 1; overflow-y: auto; padding: 5px; }
-        .upgrades::-webkit-scrollbar { width: 4px; }
+        .header h1 { font-size: 20px; font-weight: 800; background: linear-gradient(45deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .daily-btn { background: linear-gradient(45deg, #FF6B6B, #FF8E53); border: none; padding: 6px 12px; border-radius: 15px; color: white; font-weight: 700; font-size: 11px; cursor: pointer; }
+        .stats-bar { display: flex; gap: 8px; margin-bottom: 8px; flex-shrink: 0; }
+        .stat-box { flex: 1; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 6px; text-align: center; }
+        .stat-label { font-size: 9px; color: rgba(255,255,255,0.6); }
+        .stat-value { font-size: 12px; font-weight: 700; color: #FFD700; }
+        .quest-box { background: linear-gradient(135deg, #6B5B95, #88B04B); border-radius: 10px; padding: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .quest-info b { font-size: 11px; }
+        .quest-progress { font-size: 10px; color: rgba(255,255,255,0.8); }
+        .quest-reward { color: #FFD700; font-size: 11px; }
+        .money-box { background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)); border-radius: 14px; padding: 12px; margin-bottom: 8px; text-align: center; flex-shrink: 0; }
+        .money { font-size: 32px; font-weight: 700; color: #00FF88; }
+        .mps { color: rgba(255,255,255,0.7); font-size: 11px; }
+        .click-area { display: flex; justify-content: center; margin: 8px 0; flex-shrink: 0; }
+        .click-btn { background: linear-gradient(145deg, #FFD700, #FF8C00); border: none; border-radius: 50%; width: 110px; height: 110px; font-size: 22px; font-weight: 700; color: #1a1a2e; cursor: pointer; box-shadow: 0 8px 25px rgba(255,215,0,0.4); transition: transform 0.1s; }
+        .click-btn:active { transform: scale(0.93); }
+        .upgrades { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 5px; -webkit-overflow-scrolling: touch; }
+        .upgrades::-webkit-scrollbar { width: 3px; }
         .upgrades::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
         .upgrades::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.3); border-radius: 10px; }
-        .upgrade {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            padding: 12px;
-            margin: 6px 0;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.2s;
-        }
-        .upgrade:hover { background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)); transform: translateX(5px); }
-        .upgrade.locked { opacity: 0.4; transform: none; }
-        .upgrade-left { display: flex; align-items: center; gap: 10px; }
-        .upgrade-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .upgrade-info b { display: block; font-size: 14px; }
-        .upgrade-info small { color: rgba(255,255,255,0.6); font-size: 10px; }
+        .upgrade { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); padding: 10px; margin: 5px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.15s; }
+        .upgrade:active { background: rgba(255,255,255,0.2); }
+        .upgrade.locked { opacity: 0.4; }
+        .upgrade-left { display: flex; align-items: center; gap: 8px; }
+        .upgrade-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .upgrade-info b { display: block; font-size: 13px; }
+        .upgrade-info small { color: rgba(255,255,255,0.6); font-size: 9px; }
         .upgrade-right { text-align: right; }
-        .upgrade-cost { color: #FFD700; font-size: 12px; font-weight: 600; }
-        .upgrade-count { background: linear-gradient(45deg, #FFD700, #FFA500); color: #1a1a2e; padding: 2px 8px; border-radius: 15px; font-size: 11px; font-weight: 700; margin-top: 3px; display: inline-block; }
-        .float { position: fixed; font-size: 26px; font-weight: 700; color: #00FF88; pointer-events: none; animation: floatUp 1s forwards; z-index: 1000; text-shadow: 0 0 10px rgba(0,255,136,0.8); }
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-100px) scale(1.2); } }
-        .popup {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 2px solid #FFD700;
-            border-radius: 20px;
-            padding: 20px 30px;
-            text-align: center;
-            z-index: 2000;
-            animation: popIn 0.3s ease;
-            display: none;
-        }
+        .upgrade-cost { color: #FFD700; font-size: 11px; font-weight: 600; }
+        .upgrade-count { background: linear-gradient(45deg, #FFD700, #FFA500); color: #1a1a2e; padding: 2px 6px; border-radius: 12px; font-size: 10px; font-weight: 700; margin-top: 2px; display: inline-block; }
+        .float { position: fixed; font-size: 24px; font-weight: 700; color: #00FF88; pointer-events: none; animation: floatUp 1s forwards; z-index: 1000; text-shadow: 0 0 10px rgba(0,255,136,0.8); }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-80px); } }
+        .popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e, #16213e); border: 2px solid #FFD700; border-radius: 18px; padding: 18px 25px; text-align: center; z-index: 2000; display: none; min-width: 200px; }
         .popup.show { display: block; }
-        @keyframes popIn { from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-        .popup h2 { color: #FFD700; margin-bottom: 10px; }
-        .popup p { font-size: 18px; margin-bottom: 15px; }
-        .popup button { background: #FFD700; color: #1a1a2e; border: none; padding: 10px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; }
-        .daily-btn {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow { 0%, 100% { box-shadow: 0 0 10px rgba(255,107,107,0.5); } 50% { box-shadow: 0 0 20px rgba(255,107,107,0.8); } }
-        .achievement {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #6B5B95, #88B04B);
-            padding: 10px 15px;
-            border-radius: 12px;
-            font-size: 12px;
-            display: none;
-            animation: slideIn 0.5s ease;
-            z-index: 1500;
-        }
-        .achievement.show { display: block; }
-        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        .ad-banner { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: linear-gradient(to top, #000, rgba(0,0,0,0.8)); display: flex; align-items: center; justify-content: center; }
+        .popup h2 { color: #FFD700; margin-bottom: 8px; font-size: 18px; }
+        .popup p { font-size: 16px; margin-bottom: 12px; }
+        .popup button { background: #FFD700; color: #1a1a2e; border: none; padding: 8px 25px; border-radius: 20px; font-weight: 700; cursor: pointer; }
+        .ad-banner { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: linear-gradient(to top, #000, rgba(0,0,0,0.9)); display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
-    <div class="achievement" id="achievement">🏆 업적 달성!</div>
     <div class="popup" id="popup">
-        <h2 id="popupTitle">🎉 업적 달성!</h2>
-        <p id="popupText">+$100</p>
+        <h2 id="popupTitle">🎉!</h2>
+        <p id="popupText">+$0</p>
         <button onclick="closePopup()">확인</button>
     </div>
     
     <div class="container">
         <div class="header">
             <h1>💎 Money Tycoon</h1>
-            <button class="daily-btn" onclick="getDailyReward()">🎁 일일 보상</button>
+            <button class="daily-btn" onclick="getDailyReward()">🎁</button>
         </div>
         <div class="stats-bar">
-            <div class="stat-box"><div class="stat-label">레벨</div><div class="stat-value" id="level">1</div></div>
-            <div class="stat-box"><div class="stat-label">경험치</div><div class="stat-value" id="exp">0/100</div></div>
+            <div class="stat-box"><div class="stat-label">LV</div><div class="stat-value" id="level">1</div></div>
+            <div class="stat-box"><div class="stat-label">EXP</div><div class="stat-value" id="exp">0</div></div>
             <div class="stat-box"><div class="stat-label">업적</div><div class="stat-value" id="achievements">0</div></div>
         </div>
         <div class="quest-box">
             <div class="quest-info">
-                <b id="questName">클릭하여 돈 벌기</b>
-                <div class="quest-progress" id="questProgress">0/100 클릭</div>
+                <b id="questName">클릭!</b>
+                <div class="quest-progress" id="questProgress">0/100</div>
             </div>
             <div class="quest-reward" id="questReward">+$50</div>
         </div>
         <div class="money-box">
             <div class="money" id="money">$0</div>
-            <div class="mps">📈 초당 수입: <span id="mps">$0</span></div>
+            <div class="mps">📈 <span id="mps">$0</span>/초</div>
         </div>
         <div class="click-area">
             <button class="click-btn" onclick="clickMoney(event)">TAP!</button>
@@ -205,11 +111,12 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
         
         let money = 0, mps = 0, clickValue = 1, level = 1, exp = 0, expNeeded = 100;
-        let totalClicks = 0, totalEarned = 0, achievementCount = 0;
+        let totalClicks = 0, achievementCount = 0;
         let questProgress = 0, questTarget = 100, questReward = 50;
-        let lastDaily = localStorage.getItem('lastDaily') || 0;
+        let lastDaily = parseInt(localStorage.getItem('lastDaily') || '0');
         
         const icons = ['👤','🎰','☕','🏪','🍽️','🏨','🏢','📈','🏦','🌐'];
+        const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9'];
         const upgrades = [
             {name:"알바생",cost:15,income:0.5,count:0},
             {name:"판매기",cost:100,income:3,count:0},
@@ -224,33 +131,49 @@
         ];
         
         const achievements = [
-            {id:1,name:"첫 클릭!",desc:"처음으로 클릭하기",reward:10,unlocked:false},
-            {id:2,name:"백만장자!",desc:"$1,000,000 모으기",reward:10000,unlocked:false},
-            {id:3,name:"사업가",desc:"업그레이드 10번 구매",reward:100,unlocked:false},
-            {id:4,name:"고속성장",desc:"레벨 10 달성",reward:500,unlocked:false},
-            {id:5,name:" passive income",desc:"초당 $1,000 벌기",reward:5000,unlocked:false}
+            {id:1,name:"첫 클릭",reward:10,unlocked:false},
+            {id:2,name:"백만장자",reward:10000,unlocked:false,cond:()=>money>=1000000},
+            {id:3,name:"사업가",reward:100,unlocked:false,cond:()=>upgrades.reduce((s,u)=>s+u.count,0)>=10},
+            {id:4,name:"레벨10",reward:500,unlocked:false,cond:()=>level>=10},
+            {id:5,name:"수입천",reward:5000,unlocked:false,cond:()=>mps>=1000}
         ];
         
-        function load() {
-            const s = localStorage.getItem('moneyTycoon3');
-            if (s) {
-                let d = JSON.parse(s);
-                money = d.m || 0; mps = d.p || 0; clickValue = d.c || 1;
-                level = d.l || 1; exp = d.e || 0; expNeeded = d.en || 100;
-                totalClicks = d.tc || 0; totalEarned = d.te || 0; achievementCount = d.ac || 0;
-                questProgress = d.qp || 0;
-                if (d.u) upgrades.forEach((u,i)=>u.count=d.u[i]||0);
-                if (d.ach) achievements.forEach((a,i)=>a.unlocked=d.ach[i]||false);
-            }
-        }
         function save() {
-            localStorage.setItem('moneyTycoon3',JSON.stringify({
-                m:money,p:mps,c:clickValue,l:level,e:exp,en:expNeeded,
-                tc:totalClicks,te:totalEarned,ac:achievements.map(a=>a.unlocked),qp:questProgress,
-                u:upgrades.map(u=>u.count)
-            }));
+            try {
+                const data = JSON.stringify({
+                    m: money, p: mps, c: clickValue, l: level, e: exp, en: expNeeded,
+                    tc: totalClicks, ac: achievementCount, qp: questProgress, qt: questTarget, qr: questReward,
+                    u: upgrades.map(u => u.count),
+                    ach: achievements.map(a => a.unlocked),
+                    ld: lastDaily
+                });
+                localStorage.setItem('moneySave', data);
+            } catch(e) { console.log('Save error:', e); }
         }
-        function fmt(n) { if(n>=1e12)return(n/1e12).toFixed(2)+'T'; if(n>=1e9)return(n/1e9).toFixed(2)+'B'; if(n>=1e6)return(n/1e6).toFixed(2)+'M'; if(n>=1e3)return(n/1e3).toFixed(1)+'K'; return Math.floor(n).toString(); }
+        
+        function load() {
+            try {
+                const s = localStorage.getItem('moneySave');
+                if (s) {
+                    const d = JSON.parse(s);
+                    money = d.m || 0; mps = d.p || 0; clickValue = d.c || 1;
+                    level = d.l || 1; exp = d.e || 0; expNeeded = d.en || 100;
+                    totalClicks = d.tc || 0; achievementCount = d.ac || 0;
+                    questProgress = d.qp || 0; questTarget = d.qt || 100; questReward = d.qr || 50;
+                    lastDaily = d.ld || 0;
+                    if (d.u) upgrades.forEach((u,i) => u.count = d.u[i] || 0);
+                    if (d.ach) achievements.forEach((a,i) => a.unlocked = d.ach[i] || false);
+                }
+            } catch(e) { console.log('Load error:', e); }
+        }
+        
+        function fmt(n) { 
+            if(n>=1e12)return(n/1e12).toFixed(1)+'T'; 
+            if(n>=1e9)return(n/1e9).toFixed(1)+'B'; 
+            if(n>=1e6)return(n/1e6).toFixed(1)+'M'; 
+            if(n>=1e3)return(n/1e3).toFixed(1)+'K'; 
+            return Math.floor(n).toString(); 
+        }
         
         function addExp(amount) {
             exp += amount;
@@ -259,21 +182,23 @@
                 level++;
                 expNeeded = Math.floor(expNeeded * 1.5);
                 clickValue += level;
-                showPopup('레벨업!', `레벨 ${level} 달성! +${level} 클릭력`);
+                showPopup('레벨업!', `레벨 ${level}! +${level} 클릭력`);
             }
             checkAchievements();
-            updateUI();
         }
         
         function clickMoney(e) {
             money += clickValue;
             totalClicks++;
-            totalEarned += clickValue;
             questProgress++;
             
-            let f = document.createElement('div'); f.className='float'; f.textContent='+$'+fmt(clickValue); 
-            f.style.left=(e.clientX-30)+'px'; f.style.top=(e.clientY-20)+'px'; 
-            document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
+            let f = document.createElement('div');
+            f.className = 'float';
+            f.textContent = '+$' + fmt(clickValue);
+            f.style.left = (e.clientX - 25) + 'px';
+            f.style.top = (e.clientY - 15) + 'px';
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 1000);
             
             checkQuest();
             addExp(1);
@@ -295,37 +220,44 @@
         function checkQuest() {
             if (questProgress >= questTarget) {
                 money += questReward;
-                showPopup('퀘스트 완료!', `+$${fmt(questReward)}`);
+                showPopup('퀘스트 완료!', '+$' + fmt(questReward));
                 questProgress = 0;
                 questTarget = Math.floor(questTarget * 1.2);
                 questReward = Math.floor(questReward * 1.3);
                 addExp(20);
             }
-            updateUI();
         }
         
         function getDailyReward() {
-            let now = Date.now();
-            if (now - lastDaily < 86400000) {
-                showPopup('아직!', '내일 다시 오세요!');
+            const now = Date.now();
+            const day = 24 * 60 * 60 * 1000;
+            if (now - lastDaily < day) {
+                showPopup('아직!', '내일 다시!');
                 return;
             }
             let reward = level * 100 + 100;
             money += reward;
             lastDaily = now;
-            localStorage.setItem('lastDaily', now);
-            showPopup('🎁 일일 보상!', `+$${fmt(reward)}`);
+            showPopup('🎁 일일 보상!', '+$' + fmt(reward));
             addExp(50);
+            save();
         }
         
         function checkAchievements() {
-            let unlocked = false;
-            if (totalClicks >= 1 && !achievements[0].unlocked) { achievements[0].unlocked = true; money += achievements[0].reward; showPopup('🏆 '+achievements[0].name, '+$'+fmt(achievements[0].reward)); unlocked = true; }
-            if (money >= 1000000 && !achievements[1].unlocked) { achievements[1].unlocked = true; money += achievements[1].reward; showPopup('🏆 '+achievements[1].name, '+$'+fmt(achievements[1].reward)); unlocked = true; }
-            if (upgrades.reduce((s,u)=>s+u.count,0) >= 10 && !achievements[2].unlocked) { achievements[2].unlocked = true; money += achievements[2].reward; showPopup('🏆 '+achievements[2].name, '+$'+fmt(achievements[2].reward)); unlocked = true; }
-            if (level >= 10 && !achievements[3].unlocked) { achievements[3].unlocked = true; money += achievements[3].reward; showPopup('🏆 '+achievements[3].name, '+$'+fmt(achievements[3].reward)); unlocked = true; }
-            if (mps >= 1000 && !achievements[4].unlocked) { achievements[4].unlocked = true; money += achievements[4].reward; showPopup('🏆 '+achievements[4].name, '+$'+fmt(achievements[4].reward)); unlocked = true; }
-            if (unlocked) { achievementCount = achievements.filter(a=>a.unlocked).length; save(); }
+            let changed = false;
+            achievements.forEach((a, i) => {
+                if (!a.unlocked) {
+                    const cond = a.cond ? a.cond() : (i === 0 && totalClicks >= 1);
+                    if (cond) {
+                        a.unlocked = true;
+                        money += a.reward;
+                        showPopup('🏆 ' + a.name, '+$' + fmt(a.reward));
+                        achievementCount++;
+                        changed = true;
+                    }
+                }
+            });
+            if (changed) save();
         }
         
         function showPopup(title, text) {
@@ -333,23 +265,25 @@
             document.getElementById('popupText').textContent = text;
             document.getElementById('popup').classList.add('show');
         }
-        function closePopup() { document.getElementById('popup').classList.remove('show'); }
+        
+        function closePopup() {
+            document.getElementById('popup').classList.remove('show');
+        }
         
         function updateUI() {
             document.getElementById('money').textContent = '$' + fmt(money);
-            document.getElementById('mps').textContent = '$' + fmt(mps) + '/초';
+            document.getElementById('mps').textContent = '$' + fmt(mps);
             document.getElementById('level').textContent = level;
             document.getElementById('exp').textContent = fmt(exp) + '/' + fmt(expNeeded);
             document.getElementById('achievements').textContent = achievementCount;
-            document.getElementById('questProgress').textContent = fmt(questProgress) + '/' + fmt(questTarget) + ' 클릭';
+            document.getElementById('questProgress').textContent = fmt(questProgress) + '/' + fmt(questTarget);
             document.getElementById('questReward').textContent = '+$' + fmt(questReward);
             
             let h = '';
-            upgrades.forEach((u,i) => {
-                let colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9'][i];
-                h += `<div class="upgrade ${money>=u.cost?'':'locked'}" onclick="buy(${i})">
+            upgrades.forEach((u, i) => {
+                h += `<div class="upgrade ${money >= u.cost ? '' : 'locked'}" onclick="buy(${i})">
                     <div class="upgrade-left">
-                        <div class="upgrade-icon" style="background:${colors}20;border:2px solid ${colors}">${icons[i]}</div>
+                        <div class="upgrade-icon" style="background:${colors[i]}25;border:2px solid ${colors[i]}">${icons[i]}</div>
                         <div class="upgrade-info"><b>${u.name}</b><small>+$${u.income}/초</small></div>
                     </div>
                     <div class="upgrade-right">
@@ -362,8 +296,20 @@
             save();
         }
         
-        setInterval(() => { if(mps>0){money+=mps; totalEarned+=mps; questProgress+=Math.floor(mps); checkQuest(); addExp(Math.floor(mps/10));} updateUI(); }, 1000);
-        load(); updateUI();
+        // Auto income
+        setInterval(() => {
+            if (mps > 0) {
+                money += mps;
+                questProgress += Math.floor(mps);
+                checkQuest();
+                addExp(Math.floor(mps / 10));
+                updateUI();
+            }
+        }, 1000);
+        
+        // Init
+        load();
+        updateUI();
     </script>
 </body>
 </html>
